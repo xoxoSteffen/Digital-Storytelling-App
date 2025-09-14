@@ -6,7 +6,7 @@
     (ended)="onVideoEnded()"
     (timeupdate)="onTimeUpdate()"
     >
-    <source [src]="currentVideoNode?.videoUrl" type="video/mp4" />
+    <source [src]="currentSrc" type="video/mp4" />
     Dein Browser unterstützt dieses Videoformat nicht.
   </video>
   <button class="skip-button" (click)="skipToEnd()">Überspringen</button>

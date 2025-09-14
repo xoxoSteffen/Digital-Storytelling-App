@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common'; // CommonModule importieren
 import { delay } from 'rxjs';
+const VIDEO_BASE_URL = 'https://github.com/xoxoSteffen/Digital-Storytelling-App/releases/download/video-assets-v1/';
+
 
 
 interface VideoChoice {
@@ -638,6 +640,24 @@ export class InteractiveVideoComponent implements OnInit {
   showChoices = false;
   isVideoEnded = false;
   isPlaying = false;
+
+  private resolveVideoUrl(pathOrUrl: string): string {
+  // Wenn schon eine vollständige URL angegeben ist (http/https), einfach zurückgeben
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+
+  // Sonst nur den Dateinamen aus dem Pfad holen (z. B. "1.1.mp4")
+  const filename = pathOrUrl.split('/').pop() || pathOrUrl;
+
+  // Und vorne die GitHub-Release-Basis dranhängen
+  return VIDEO_BASE_URL + filename;
+}
+
+get currentSrc(): string | undefined {
+  return this.currentVideoNode
+    ? this.resolveVideoUrl(this.currentVideoNode.videoUrl)
+    : undefined;
+}
+
   
 
   ngOnInit(): void {
