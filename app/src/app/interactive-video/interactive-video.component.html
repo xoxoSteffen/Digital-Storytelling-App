@@ -1,0 +1,31 @@
+
+<div class="video-container">
+  <video #videoPlayer
+    width="100%"
+    autoplay
+    (ended)="onVideoEnded()"
+    (timeupdate)="onTimeUpdate()"
+    >
+    <source [src]="currentVideoNode?.videoUrl" type="video/mp4" />
+    Dein Browser unterstützt dieses Videoformat nicht.
+  </video>
+  <button class="skip-button" (click)="skipToEnd()">Überspringen</button>
+
+  <!-- Dynamische Darstellung der Optionen -->
+  <div class="overlay" *ngIf="showChoices">
+    <button
+      *ngFor="let choice of currentVideoNode?.choices"
+      (click)="chooseOption(choice)"
+      class="overlay-button"
+      [ngStyle]="{
+        top: choice.buttonPosition.top,
+        left: choice.buttonPosition.left,
+        width: choice.buttonPosition.width,
+        height: choice.buttonPosition.height
+      }"
+    >
+      {{ choice.text }}
+    </button>
+  </div>
+</div>
+

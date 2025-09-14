@@ -1,0 +1,54 @@
+.philosophy-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Helvetica', sans-serif;
+    background-color: #050517;
+  }
+  
+  .philosophy-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(5, 5, 23, 0.3) 0%, rgba(5, 5, 23, 0.7) 70%, rgba(5, 5, 23, 0.9) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .content-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 100;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    width: 75%;
+    max-width: 1920px;
+    box-shadow: 0 0 30px rgba(88, 107, 233, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+
+  .sacred-geometry {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0.4;
+    transform-origin: center;
+    z-index: 3;
+  }
