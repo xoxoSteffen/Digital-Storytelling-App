@@ -1,17 +1,23 @@
-
 <div class="video-container">
-  <video #videoPlayer
+  <video
+    #videoPlayer
     width="100%"
-    autoplay
     (ended)="onVideoEnded()"
     (timeupdate)="onTimeUpdate()"
-    >
+  >
     <source [src]="currentSrc" type="video/mp4" />
     Dein Browser unterstützt dieses Videoformat nicht.
   </video>
+
+  <!-- Start-Overlay nur ganz am Anfang -->
+  <div class="start-overlay" *ngIf="!hasUserInteracted">
+    <button class="start-button" (click)="startExperience()">
+      Klicke um zu beginnen
+    </button>
+  </div>
+
   <button class="skip-button" (click)="skipToEnd()">Überspringen</button>
 
-  <!-- Dynamische Darstellung der Optionen -->
   <div class="overlay" *ngIf="showChoices">
     <button
       *ngFor="let choice of currentVideoNode?.choices"
@@ -28,4 +34,3 @@
     </button>
   </div>
 </div>
-

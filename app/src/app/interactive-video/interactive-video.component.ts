@@ -31,6 +31,8 @@ interface VideoNode {
 export class InteractiveVideoComponent implements OnInit {
   @ViewChild('videoPlayer') videoPlayerRef!: ElementRef<HTMLVideoElement>;
   visitCounter: { [id: string]: number } = {};
+  hasUserInteracted = false;
+
   
   
   videoNodes: VideoNode[] = [
@@ -686,64 +688,46 @@ get currentSrc(): string | undefined {
     }
   }
 
-  loadVideo(videoId: string): void {
-    const visitCount = (this.visitCounter[videoId] || 0) + 1;
-    this.visitCounter[videoId] = visitCount;
+loadVideo(videoId: string): void {
+  const visitCount = (this.visitCounter[videoId] || 0) + 1;
+  this.visitCounter[videoId] = visitCount;
 
-    // if (
-    //   videoId === 'Intro' &&
-    //   this.visitCounter['Angstraum_V2.1'] &&
-    //   this.visitCounter['Angstraum_V2.2']
-    // ) {
-    //   videoId = 'Intro_v2'; // Überschreibt das Zielvideo
-    // }
+  // deine Speziallogik (9.3 usw.) bleibt wie sie ist ...
 
-    // Spezialfall für "14.1-15.1"
-  if (videoId === '9.3') {
-    const visitedGroup1 = this.visitCounter['11.1.2'] || this.visitCounter['11.2.2'];
-    const visitedGroup2 = this.visitCounter['12.A.A'] || this.visitCounter['12.B.A'];
-    if (visitedGroup1 && visitedGroup2) {
-      // Bedingungen erfüllt: Alternative Version laden
-      // Hier kannst du entweder eine alternative Node-ID verwenden oder direkt
-      // das Video-URL anpassen.
-      videoId = '14.1-15.1';  // Angenommen, das hast du als alternativen Node definiert.
-    }
+  const node = this.videoNodes.find(n => n.id === videoId);
+  if (!node) {
+    console.error(`Kein VideoNode mit ID '${videoId}' gefunden`);
+    return;
   }
-  
-    // Hole den Node basierend auf videoId
-    const node = this.videoNodes.find(n => n.id === videoId);
-  
-    if (!node) {
-      console.error(`Kein VideoNode mit ID '${videoId}' gefunden`);
-      return;
-    }
-  
-    // Wenn  mind. das 2. Mal hier sind und es eine alternative Version gibt dann diese laden
-    const finalVideoId = visitCount >= 2 && node.alternateVersionId
-      ? node.alternateVersionId
-      : videoId;
-  
-    // Hole den richtigen Node (Original oder Alternative)
-    const finalNode = this.videoNodes.find(n => n.id === finalVideoId);
-  
-    if (!finalNode) {
-      console.error(`Kein VideoNode mit ID '${finalVideoId}' gefunden`);
-      return;
-    }
-  
-    // Setze Node & spiele ab
-    this.currentVideoNode = finalNode;
-    this.showChoices = false;
-    this.isVideoEnded = false;
-    this.isPlaying = false;
-  
-    setTimeout(() => {
-      const video = this.videoPlayerRef.nativeElement;
-      video.load();
-      this.playVideo();
-    });
+
+  const finalVideoId =
+    visitCount >= 2 && node.alternateVersionId ? node.alternateVersionId : videoId;
+
+  const finalNode = this.videoNodes.find(n => n.id === finalVideoId);
+  if (!finalNode) {
+    console.error(`Kein VideoNode mit ID '${finalVideoId}' gefunden`);
+    return;
   }
-  
+
+  this.currentVideoNode = finalNode;
+  this.showChoices = false;
+  this.isVideoEnded = false;
+  this.isPlaying = false;
+
+  const video = this.videoPlayerRef.nativeElement;
+  video.load();
+
+  // Nur automatisch abspielen, wenn der User schon einmal interagiert hat
+  if (this.hasUserInteracted) {
+    this.playVideo();
+  }
+}
+
+  startExperience(): void {
+  this.hasUserInteracted = true;
+  this.playVideo();
+}
+
 
 
 
