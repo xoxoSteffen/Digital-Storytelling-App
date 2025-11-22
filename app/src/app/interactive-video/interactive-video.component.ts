@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common'; // CommonModule importieren
 import { delay } from 'rxjs';
-const VIDEO_BASE_URL = 'https://github.com/xoxoSteffen/Digital-Storytelling-App/releases/download/video-assets-v1/';
+const VIDEO_BASE_URL = 'https://github.com/xoxoSteffen/Digital-Storytelling-App_Old/releases/download/video-assets-v1/';
 
 
 
