@@ -644,7 +644,7 @@ export class InteractiveVideoComponent implements OnInit {
   isPlaying = false;
 
   private resolveVideoUrl(pathOrUrl: string): string {
-  // Wenn schon eine vollständige URL angegeben ist (http/https), einfach zurückgeben
+  // Wenn schon eine vollständige URL angegeben is, einfach zurückgeben 
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
 
   // Sonst nur den Dateinamen aus dem Pfad holen (z. B. "1.1.mp4")
@@ -692,7 +692,20 @@ loadVideo(videoId: string): void {
   const visitCount = (this.visitCounter[videoId] || 0) + 1;
   this.visitCounter[videoId] = visitCount;
 
-  // deine Speziallogik (9.3 usw.) bleibt wie sie ist ...
+  //  Spezialfall für 9.3 → 14.1-15.1 vid müssen gesehen sein für diesen weg jajaj
+  if (videoId === '9.3') {
+    const visitedGroup1 =
+      (this.visitCounter['11.1.2'] || 0) > 0 ||
+      (this.visitCounter['11.2.2'] || 0) > 0;
+
+    const visitedGroup2 =
+      (this.visitCounter['12.A.A'] || 0) > 0 ||
+      (this.visitCounter['12.B.A'] || 0) > 0;
+
+    if (visitedGroup1 && visitedGroup2) {
+      videoId = '14.1-15.1';
+    }
+  }
 
   const node = this.videoNodes.find(n => n.id === videoId);
   if (!node) {
